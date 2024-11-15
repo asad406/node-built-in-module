@@ -10,10 +10,18 @@ server.on('request', (req,res)=>{
         //streaming file reading
         const readAbleStream = fs.createReadStream(process.cwd() + '/texts/read.txt')
         readAbleStream.on('data', (buffer)=>{
+            res.statusCode = 200;
             res.write(buffer)
         })
         readAbleStream.on('end', ()=> {
-            res.end('Hello from world')
+            res.statusCode = 200;
+            res.end('The streaming is over');
+        })
+        readAbleStream.on('error', (error)=> {
+            res.statusCode = 400;
+            console.log(error);
+            res.end('Something went wrong ');
+
         })
 })
 
